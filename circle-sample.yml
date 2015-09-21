@@ -7,9 +7,12 @@ machine:
   services:
     - docker
 
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
 dependencies:
-  cache_directories:
-    - "~/docker"
   override:
     - docker info
     - build/build.sh
