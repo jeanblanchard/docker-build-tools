@@ -36,7 +36,7 @@ if [ -n "$IMAGE_OWNER" ]; then
   echo "###"
   echo "### Fetching previous versions of $IMAGE_OWNER/$IMAGE_NAME to avoid duplicating layers"
   echo "###"
-  docker pull ${IMAGE_OWNER}/${IMAGE_NAME}:$(echo \"${IMAGE_TAGS}\" | awk '{print $1}') || true
+  docker pull ${IMAGE_OWNER}/${IMAGE_NAME}:$(echo "${IMAGE_TAGS}" | awk '{print $1}') || true
 fi
 
 echo
