@@ -13,6 +13,7 @@ if [ "$SHOW_HELP" = "true" ] || [ -z "$IMAGE_NAME" ]; then
   echo
   echo "Options:"
   echo " -n, --name, --image-name <name>    The name of the docker image to build. REQUIRED"
+  echo " -l, --local-name <name>            The name of the local image to build. Defaults to the image name"
   echo " -o, --owner, --image-owner <owner> The owner of the image to pull from the hub"
   echo " -d, --dir, --dockerfile-dir <dir>  The folder where the dockerfile is. Defaults to the current folder"
   echo " -t, --tags, --image-tags <tags>    A list of tags, separated with spaces, the first of which is pulled"
@@ -35,11 +36,11 @@ if [ -n "$IMAGE_OWNER" ]; then
   echo "###"
   echo "### Fetching previous versions of $IMAGE_OWNER/$IMAGE_NAME to avoid duplicating layers"
   echo "###"
-  docker pull $IMAGE_OWNER/$IMAGE_NAME:$(echo \"$IMAGE_TAGS\" | awk '{print $1}') || true
+  docker pull ${IMAGE_OWNER}/${IMAGE_NAME}:$(echo \"${IMAGE_TAGS}\" | awk '{print $1}') || true
 fi
 
 echo
 echo "###"
 echo "### Building $IMAGE_NAME from $DOCKERFILE_DIR"
 echo "###"
-docker build -t $IMAGE_NAME $DOCKERFILE_DIR
+docker build -t ${LOCAL_NAME} ${DOCKERFILE_DIR}
