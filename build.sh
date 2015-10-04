@@ -3,30 +3,37 @@
 # Exit on first error
 set -e
 
+# Read parameters
+. `dirname $0`/parseargs.sh
+
 # Parameters check
 
-if [ -z "$IMAGE_NAME" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  echo "Please set the following environment variables:"
-  echo "  IMAGE_NAME:     The name of the docker image to build"
-  echo "  IMAGE_OWNER:    The owner of the image to pull from the hub"
-  echo "  DOCKERFILE_DIR: The folder where the dockerfile is. Defaults to the current folder"
+if [ "$SHOW_HELP" = "true" ] || [ -z "$IMAGE_NAME" ]; then
+  echo "Usage: $0 [options]"
   echo
-  echo "Additionnaly, if you wish to pull from the Docker hub, you can set:"
-  echo "  IMAGE_OWNER:    The owner of the image to pull from the hub"
-  echo "  IMAGE_TAGS:     A list of tags, separated with spaces, the first of which is pulled"
-  exit -1
-fi
-
-if [ -z "$DOCKERFILE_DIR" ]; then
-  DOCKERFILE_DIR=.
+  echo "Options:"
+  echo " -n, --name, --image-name <name>    The name of the docker image to build. REQUIRED"
+  echo " -o, --owner, --image-owner <owner> The owner of the image to pull from the hub"
+  echo " -d, --dir, --dockerfile-dir <dir>  The folder where the dockerfile is. Defaults to the current folder"
+  echo " -t, --tags, --image-tags <tags>    A list of tags, separated with spaces, the first of which is pulled"
+  echo " -h, --help                         Display this message"
+  echo
+  echo "If the owner and tags are set, then the previous version of the first tag is fetched from the repository, "
+  echo "to avoid duplicating layers."
+  echo
+  if [ "$SHOW_HELP" = "true" ]; then
+    exit
+  else
+    exit 1
+  fi
 fi
 
 # Build
 
-if [ -n "$HUB_USERNAME" ]; then
+if [ -n "$IMAGE_OWNER" ]; then
   echo
   echo "###"
-  echo "### Fetching previous versions of $HUB_USERNAME/$IMAGE_NAME to avoid duplicating layers"
+  echo "### Fetching previous versions of $IMAGE_OWNER/$IMAGE_NAME to avoid duplicating layers"
   echo "###"
   docker pull $IMAGE_OWNER/$IMAGE_NAME:$(echo \"$IMAGE_TAGS\" | awk '{print $1}') || true
 fi
