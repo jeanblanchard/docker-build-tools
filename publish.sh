@@ -14,7 +14,7 @@ if [ "$SHOW_HELP" = "true" ] || [ -z "$IMAGE_NAME" ]; then
   echo "Options:"
   echo " -n, --name, --image-name <name>    The name of the docker image to build. REQUIRED"
   echo " -o, --owner, --image-owner <owner> The owner of the image to pull from the hub"
-  echo " -d, --dir, --dockerfile-dir <dir>  The folder where the dockerfile is. Defaults to the current folder"
+  echo " -l, --local-name <name>            The name of the local image to tag. Defaults to the image name"
   echo " -t, --tags, --image-tags <tags>    A list of tags, separated with spaces, the first of which is pulled"
   echo " -h, --help                         Display this message"
   echo
@@ -47,7 +47,7 @@ if [ -n "$HUB_USERNAME" ] && [ -n "$HUB_PASSWORD" ] && [ -n "$IMAGE_OWNER" ] && 
     echo "###"
     echo "### Building tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG"
     echo "###"
-    docker build -t ${IMAGE_OWNER}/${IMAGE_NAME}:${IMAGE_TAG} ${DOCKERFILE_DIR}
+    docker tag -f ${LOCAL_NAME} ${IMAGE_OWNER}/${IMAGE_NAME}:${IMAGE_TAG}
     echo
     echo "###"
     echo "### Pushing tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG"
