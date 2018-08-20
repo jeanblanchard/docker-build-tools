@@ -21,7 +21,6 @@ if [ "$SHOW_HELP" = "true" ] || [ -z "$IMAGE_NAME" ]; then
   echo "Environment variables:"
   echo " HUB_USERNAME:   The username to use to connect to the Docker Hub"
   echo " HUB_PASSWORD:   The username to use to connect to the Docker Hub"
-  echo " HUB_EMAIL:      The username to use to connect to the Docker Hub"
   echo
   echo "The image is published only if the imagename, owner, tags, and the hub parameters, are all set."
   echo
@@ -39,7 +38,7 @@ if [ -n "$HUB_USERNAME" ] && [ -n "$HUB_PASSWORD" ] && [ -n "$IMAGE_OWNER" ] && 
   echo "###"
   echo "### Logging in to Docker Hub"
   echo "###"
-  docker login -u ${HUB_USERNAME} -p ${HUB_PASSWORD} -e ${HUB_EMAIL}
+  docker login -u ${HUB_USERNAME} -p ${HUB_PASSWORD}
 
   # Publish every tag
   for IMAGE_TAG in ${IMAGE_TAGS}; do
