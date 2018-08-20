@@ -46,7 +46,7 @@ if [ -n "$HUB_USERNAME" ] && [ -n "$HUB_PASSWORD" ] && [ -n "$IMAGE_OWNER" ] && 
     echo "###"
     echo "### Building tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG"
     echo "###"
-    docker tag -f ${LOCAL_NAME} ${IMAGE_OWNER}/${IMAGE_NAME}:${IMAGE_TAG}
+    docker tag ${LOCAL_NAME} ${IMAGE_OWNER}/${IMAGE_NAME}:${IMAGE_TAG}
     echo
     echo "###"
     echo "### Pushing tag $IMAGE_OWNER/$IMAGE_NAME:$IMAGE_TAG"
